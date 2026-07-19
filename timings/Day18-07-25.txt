@@ -1,0 +1,26 @@
+today i learnt about :
+
+Linux :
+======
+ls , ls -lsha , pwd , mkdir, cp , cp -r , mv , cd , touch , rm -rf 
+chmod , chown , chgrp , umask 
+ps , pkill , kill , top 
+netstat , ifconfig , ping , tuln -p , 
+env $var = ananth , ls -lsh $2>.log , 
+tar , gzip , gunzip 
+find . -type f -name "invoice"
+grep 
+
+
+git 
+===
+git config 
+git remote add origin ___
+
+git init 
+git add . 
+git commit -m my first commit 
+git branch -M main 
+git push -u origin main 
+
+====
