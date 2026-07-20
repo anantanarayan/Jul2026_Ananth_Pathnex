@@ -1,0 +1,125 @@
+#day 02 - services and Tags 
+
+## Ansible - install and enable Nginx 
+
+---
+ -  name: Install and Enable Nginx on pathnex
+    hosts : all
+    become : yes
+
+    tasks: 
+    -name : Install nginx 
+    yum :
+    name : nginx 
+    state : started 
+    enabled : yes 
+
+
+# Terraform - Ec2 with Tags (r4.2x large)
+
+provider "aws" {
+    region ="us-east-1"
+    }
+
+resources "aws_instance" "PathnexEC2" {
+    ami = "ami- 0ndgdk"
+    instance_type = "r4.2xlarge"
+
+    tags = {
+        Name = "Pathnex-server"
+        Environment = "Training"
+        Owner = "PathnexStudent"
+
+
+    }
+}
+
+#Kubernates - Deployment with 2 Replicas 
+
+apiVersion : apps/v1
+kind : Deployment 
+metadata :
+    name : pathnex-deployment 
+spec:
+    replicas : 2 
+    selector :
+      matchLabels:
+        app: pathnex-app
+    template :
+      metadata : 
+          labels:
+             app :pathnex-app
+      spec:
+         containers:
+           -name : app
+            image : nginx
+            ports:
+                - containerPort : 80 
+
+#shell script - Disk usage 
+
+#!/bin/bash
+df -h 
+
+Maven build 
+##Jenkins pipeline 
+
+Lets learn how to compile, test , pacjage a jav project using maven 
+
+pipeline {
+    agent any 
+    tools {
+        maven 'Maven-3.8.1'
+        jdk 'JDK-17'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git url : 'https://..."
+            }
+        }
+        stage ('complile') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+        stage("test") {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage ("Package") {
+            steps {
+                sh 'mvn package'
+            }
+        }
+    }
+}
+
+#Gitlab CI - Maven build 
+
+stages :
+    -build 
+    -test 
+    -package
+
+maven-build 
+    stage : build 
+    image : maven: 3.8.1-jdk-17
+    script :
+       -git clone https://
+       cd sample-java-app
+       -mvn clean compile
+
+    maven-test :
+        stage : test 
+            image : maven:3.8.1-jdk-17
+        script :
+            -cd sample-java-app
+            -mvn test 
+    maven-package :
+        stage : package 
+        image : maven: 3.8.1-jdk-17
+        script :
+           -cd sample-java-app
+           -mvn package 
