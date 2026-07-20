@@ -1,0 +1,103 @@
+#day 3 
+
+---
+  - name : create pathnex user 
+    hosts : all 
+    become : yes 
+
+    tasks :
+    - name : create user pathnex-admin 
+      user :
+         name : pathnex-admin
+         shell : /bin/bash
+
+## Terraform - security Group (r6i.4xlarge EC2)
+
+provider "aws" {
+    region = "us-east-1"
+}
+
+resource "aws_instance" "pathnexSG" {
+    name = "PathnexSG"
+    description = "Pathnex SG for SSH"
+
+    ingress {
+        from_port = 22 
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+}
+
+resource "aws_instance" "PathnexEC2" {
+    ami = "07hgdjdk2"
+    instance_type = "r61.4xlarge"
+    vpc_security_group_ids = [aws_security_group_pathnex5G.id]
+
+    tags = {
+        Name = "Pathnex-Ec2
+    }
+}
+
+## Kubernates - Add Env Variables 
+
+apiVersion : v1
+kind : pod
+metadata: 
+    name : pathnex-env-pod
+spec :
+    containers :
+        -name : app
+        image : nginx 
+        env :
+            -name : app
+            image : nginx
+            env :
+                -name : APP_ENV 
+                value : "production"
+
+## shell script - check file exists 
+
+#!/bin/bash
+FILE = "/tmp/patnex.txt"
+
+if [-f $FILE "]; then 
+    echo "file exists"
+else 
+echo "File does not exists"
+
+# NodeJs build 
+#jenkins pipeline - nodeJS Build 
+
+you will learn how to ** install dependencies , run tests , and build a NodeJS project **.
+
+pipeline {
+    agent any 
+    tools {
+        nodejs 'NodeJS-16'
+    }
+    stages {
+        stage('checkout') {
+            steps {
+                git url : https:// ....git
+
+            }
+        }
+        stage ('Install dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage ('Run tests') {
+            steps{
+                sh 'npm run build'
+            }
+        }
+        stage ('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+    }
+}
