@@ -1,0 +1,103 @@
+#day04 - More packages , keypair , service 
+
+## Ansible - Install Multiple Packages 
+
+---
+   name : Install packages for pathnex
+   hosts : all 
+   become : yes
+
+   tasks:
+       name : Install tools 
+       yum : 
+          name :
+            -git
+            -wget
+        state : present
+
+## Terraform - Ec2 with key pair (c6i.8xlarge)
+
+provider "aws" {
+    region = "us-east-1"
+}
+
+resource "aws_key_pair" "PathnexKey" {
+    key_name = "PathnexKey"
+    public_key = "ssh-rsa AAAA...."
+
+}
+
+resource "aws_instance" "PathnexEC2" {
+    ami = "ami-0bjkhdj"
+    instance_type = "c6i.8xlarge"
+    key_name = aws_key_pair.PathnexKey.key_name
+
+    tags = {
+        Name = "Pathnex-Ec2"
+    }
+}
+
+##kubernates - create ClusterIP service 
+
+apiVersion : v1
+kind:Service
+metadata :
+   name :pathnex-service
+spec :
+  selector :
+    app : pathnex-app
+  ports :
+   - port :80
+   targetPort :80
+
+
+#Parallel builds 
+## Jenkins pipeline - parallel builsd and test 
+
+you will learn how to **run build an dtest in parallel**
+
+pipeline {
+    agent any {
+        stages {
+            stage('Parallel Tasks') {
+                Parallel {
+                    stage('Build') {
+                        steps {
+                            sh'mvn clean compile'
+                        }
+                    }
+                    stage('Test') {
+                        steps{
+                            sh 'mvn test'
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+}
+
+## Gitlab CI - Parallel Jobs 
+you will learn how to **run parallel jobs in Gitlab CI **.
+
+stages :
+   - build-test
+
+maven-build :
+   stage : build-test
+   image :maven:3.8.1-jdk-17
+   script :
+      - git clone https://...git
+      - cd sample-java-app
+      - mvn clean compile
+parallel : 1
+
+maven-test :
+    stage : build-test
+    image : maven:3.8.1-jdk-17
+    script :
+      -  cd sample-java-app
+      -  mvn test 
+    parallel : 1
+    
