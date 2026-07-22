@@ -1,0 +1,65 @@
+# Day07 - Speed typing 
+
+---
+- name: Install and start Nginx
+  hosts: webservers
+  become: true
+  tasks:
+    - name: Update apt cache and install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: true
+
+    - name: Ensure Nginx is running and enabled
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" "Pathnex-EC2" {
+  region = "us-east-1"
+}
+
+resource "aws_instance" "web_server" {
+  ami           = "ami-0c7217cdde317cfec"
+  instance_type = "t3.micro"
+
+  tags = {
+    Name = "Pathnex-EC2-Instance"
+  }
+}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80
+
+echo "Date: $(date) | Uptime: $(uptime -p)"
+
