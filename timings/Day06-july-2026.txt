@@ -1,0 +1,4 @@
+today i learnt about the ansible --
+why ansible 
+uses 
+static and dynamic 
