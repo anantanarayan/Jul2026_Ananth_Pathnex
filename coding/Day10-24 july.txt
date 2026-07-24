@@ -1,6 +1,6 @@
 # Day 10 — Conditions, Route Table, Secret, Loops
 
-## 🔹 Ansible — When Condition
+## push Ansible — When Condition
 
 ---
 - name: Install tool based on OS
@@ -15,7 +15,7 @@
       when: ansible_facts['os_family'] == "RedHat"
 
 
-## 🔹 Terraform — Route Table + Association
+## Terraform — Route Table + Association
 
 resource "aws_route_table" "PathnexRT" {
   vpc_id = aws_vpc.PathnexVPC.id
@@ -36,7 +36,7 @@ resource "aws_route_table_association" "PathnexRTA" {
 }
 
 
-## 🔹 Kubernetes — Secret
+## Kubernetes — Secret
 
 apiVersion: v1
 kind: Secret
@@ -47,7 +47,7 @@ data:
   password: cGF0aG5leDEyMw==   # "pathnex123" base64
 
 
-## 🔹 Shell Script — For Loop 1–10
+## Shell Script — For Loop 1–10
 
 #!/bin/bash
 
@@ -58,7 +58,7 @@ done
 
 # Caching Dependencies
 
-## 🔹 Jenkins Pipeline — Cache Maven Dependencies
+## Jenkins Pipeline — Cache Maven Dependencies
 You will learn how to **reuse dependencies to speed up builds**.
 
 pipeline {
@@ -86,7 +86,7 @@ pipeline {
     }
 }
 
-## 🔹 GitLab CI — Cache Dependencies
+## GitLab CI — Cache Dependencies
 You will learn how to **cache dependencies in GitLab CI**.
 
 stages:
